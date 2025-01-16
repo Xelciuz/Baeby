@@ -16,44 +16,88 @@
       align-items: center;
       height: 100vh;
       overflow: hidden;
+      flex-direction: column;
+      position: relative;
     }
 
+    /* Confetti animation */
+    @keyframes confetti {
+      0% {
+        transform: translateY(0) rotate(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ff6b6b;
+      border-radius: 50%;
+      animation: confetti 3s linear infinite;
+    }
+
+    .confetti:nth-child(odd) {
+      background-color: #ff9a9e;
+      animation-duration: 2.5s;
+    }
+
+    .confetti:nth-child(even) {
+      background-color: #ffb6c1;
+      animation-duration: 3.5s;
+    }
+
+    .confetti-border {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Page layout */
     #page1, #page2, #page3 {
       display: none;
       text-align: center;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     #page1 {
       display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     button {
       background: #ff6b6b;
-      color: #fff;
+      color: yellow;
       padding: 15px 30px;
       border: none;
       border-radius: 10px;
-      font-size: 1.5rem;
+      font-size: 2rem;
+      font-weight: bold;
       cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    button img {
-      width: 30px;
-      height: 30px;
-      margin-left: 10px;
+      transition: transform 0.2s, background 0.3s;
     }
 
     button:hover {
       transform: scale(1.1);
+      background: #ff4d4d;
     }
 
     .balloon {
       position: absolute;
-      width: 50px;
-      height: 70px;
+      width: 40px;
+      height: 60px;
       background: #ff9a9e;
       border-radius: 50%;
       animation: fly 6s infinite;
@@ -64,7 +108,7 @@
       position: absolute;
       bottom: -20px;
       left: 50%;
-      width: 2px;
+      width: 1.5px;
       height: 20px;
       background: #fff;
       transform: translateX(-50%);
@@ -86,13 +130,28 @@
       margin-top: 20px;
     }
 
-    .wish {
-      font-size: 2rem;
-      margin-bottom: 20px;
+    .title {
+      font-size: 2.5rem;
+      color: red;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      animation: flash 1s infinite alternate;
+    }
+
+    @keyframes flash {
+      0% {
+        text-shadow: 0 0 5px yellow, 0 0 10px orange, 0 0 20px red;
+      }
+      100% {
+        text-shadow: 0 0 10px orange, 0 0 20px yellow, 0 0 30px red;
+      }
     }
 
     .heart {
-      font-size: 5rem;
+      font-size: 4rem;
+      position: absolute;
+      bottom: 10px;
       animation: pulse 1s infinite;
     }
 
@@ -104,9 +163,54 @@
         transform: scale(1.2);
       }
     }
+
+    /* New button */
+    .special-btn {
+      margin-top: 20px;
+      background-color: #ffd700; /* Golden color */
+      color: #000;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .special-btn:hover {
+      transform: scale(1.1);
+      background: #ffcc00;
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 2rem;
+      }
+
+      button, .special-btn {
+        font-size: 1.5rem;
+        padding: 10px 20px;
+      }
+
+      .heart {
+        font-size: 3rem;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Confetti Border -->
+  <div class="confetti-border">
+    <!-- Confetti elements -->
+    <div class="confetti" style="top: 10px; left: 10px;"></div>
+    <div class="confetti" style="top: 15px; left: 25px;"></div>
+    <div class="confetti" style="top: 20px; left: 30px;"></div>
+    <div class="confetti" style="top: 30px; left: 40px;"></div>
+    <div class="confetti" style="top: 35px; left: 50px;"></div>
+    <!-- You can add more confetti elements here for continuous animation -->
+  </div>
+
   <!-- Page 1 -->
   <div id="page1">
     <button id="hello-btn">Hello Baeby</button>
@@ -115,13 +219,13 @@
   <!-- Page 2 -->
   <div id="page2">
     <div id="balloons"></div>
-    <button id="surprise-btn">Tap here for surprise <img src="https://img.icons8.com/emoji/48/000000/birthday-cake.png" alt="Cake"></button>
+    <button id="surprise-btn">Tap Here</button>
   </div>
 
   <!-- Page 3 -->
   <div id="page3">
-    <p class="wish">Happy Birthday, Baeby! 🎉</p>
-    <p>You’re the most special person in my life, and I’m so lucky to have you. ❤️</p>
+    <p class="title">Happy Birthday</p>
+    <button class="special-btn" id="special-btn">There's Something You Should Know</button>
     <div class="heart">❤️</div>
     <audio id="birthday-song" autoplay loop>
       <source src="https://www.bensound.com/bensound-music/bensound-happybirthday.mp3" type="audio/mpeg">
@@ -138,6 +242,7 @@
     const page3 = document.getElementById('page3');
     const balloonsContainer = document.getElementById('balloons');
     const birthdaySong = document.getElementById('birthday-song');
+    const specialBtn = document.getElementById('special-btn');
 
     helloBtn.addEventListener('click', () => {
       page1.style.display = 'none';
@@ -162,6 +267,10 @@
       page2.style.display = 'none';
       page3.style.display = 'flex';
       birthdaySong.play(); // Start the birthday song
+    });
+
+    specialBtn.addEventListener('click', () => {
+      alert('You are the love of my life, Baeby! 💖');  // Example message
     });
   </script>
 </body>
