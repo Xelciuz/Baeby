@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday, Baeby!</title>
+  <title>Birthday Surprise for Baeby</title>
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
   <style>
     body {
@@ -132,12 +132,12 @@
     }
 
     .title {
-      font-size: 10rem; /* Increased font size */
-      color: skyblue; /* Sky blue color */
+      font-size: 7rem; /* Reduced font size for "Happy Birthday" */
+      color: skyblue;
       font-weight: bold;
       text-transform: uppercase;
       margin-bottom: 10px;
-      animation: flash 1s infinite; /* Flash animation */
+      animation: flash 1s infinite;
     }
 
     @keyframes flash {
@@ -192,7 +192,7 @@
 
     @media (max-width: 768px) {
       .title {
-        font-size: 6rem; /* Reduced size for small screens */
+        font-size: 5rem; /* Adjusted size for small screens */
       }
 
       button, .special-btn {
@@ -204,96 +204,84 @@
         font-size: 6rem; /* Adjusted size for smaller screens */
       }
     }
+
+    /* For larger phones/tablets */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 4rem; /* Further reduce for smaller devices */
+      }
+
+      button, .special-btn {
+        font-size: 1.8rem;
+        padding: 15px 30px;
+      }
+
+      .heart {
+        font-size: 5rem;
+      }
+    }
   </style>
 </head>
 <body>
+
   <div class="confetti-border">
-    <div class="confetti" style="top: 10px; left: 10px;"></div>
-    <div class="confetti" style="top: 15px; left: 25px;"></div>
-    <div class="confetti" style="top: 20px; left: 30px;"></div>
-    <div class="confetti" style="top: 30px; left: 40px;"></div>
-    <div class="confetti" style="top: 35px; left: 50px;"></div>
-    <div class="confetti" style="top: 10px; right: 10px;"></div>
-    <div class="confetti" style="top: 15px; right: 25px;"></div>
-    <div class="confetti" style="top: 20px; right: 30px;"></div>
-    <div class="confetti" style="top: 30px; right: 40px;"></div>
-    <div class="confetti" style="top: 35px; right: 50px;"></div>
-    <div class="confetti" style="bottom: 10px; left: 10px;"></div>
-    <div class="confetti" style="bottom: 15px; left: 25px;"></div>
-    <div class="confetti" style="bottom: 20px; left: 30px;"></div>
-    <div class="confetti" style="bottom: 30px; left: 40px;"></div>
-    <div class="confetti" style="bottom: 35px; left: 50px;"></div>
-    <div class="confetti" style="bottom: 10px; right: 10px;"></div>
-    <div class="confetti" style="bottom: 15px; right: 25px;"></div>
-    <div class="confetti" style="bottom: 20px; right: 30px;"></div>
-    <div class="confetti" style="bottom: 30px; right: 40px;"></div>
-    <div class="confetti" style="bottom: 35px; right: 50px;"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
   </div>
 
+  <!-- Page 1 -->
   <div id="page1">
     <div class="heart">❤️</div>
-    <button id="hello-btn">Hello Baeby</button>
+    <button onclick="nextPage(2)">Hello Baeby</button>
   </div>
 
+  <!-- Page 2 -->
   <div id="page2">
     <div class="heart">❤️</div>
-    <div id="balloons"></div>
-    <button id="surprise-btn">Tap Here</button>
+    <button onclick="nextPage(3)">Tap Here</button>
   </div>
 
+  <!-- Page 3 -->
   <div id="page3">
-    <p class="title" id="birthday-title" style="display: none;">Happy Birthday</p>
-    <button class="special-btn" id="special-btn">There's Something You Should Know</button>
-    <div class="heart">❤️</div>
-    <audio id="birthday-song" autoplay loop>
-      <source src="custom-happy-birthday.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
+    <div class="title">Happy Birthday</div>
+    <button onclick="nextPage(4)">Tap Here</button>
+    <button id="specialBtn" onclick="showMessage()" style="display: none;">There's Something You Should Know</button>
   </div>
 
+  <!-- Page 4 -->
   <div id="page4">
-    <div class="love-message">~ I love you so much</div>
-    <div class="final-message">~ You're my light, my sun, my moon, my everything</div>
+    <div class="title">Happy Birthday</div>
+    <button onclick="showFinalMessage()">Tap Here</button>
+    <div class="final-message" style="display: none;">
+      <em>~ You're my light, my sun, my moon my everything</em>
+    </div>
   </div>
 
   <script>
-    const helloBtn = document.getElementById('hello-btn');
-    const surpriseBtn = document.getElementById('surprise-btn');
-    const page1 = document.getElementById('page1');
-    const page2 = document.getElementById('page2');
-    const page3 = document.getElementById('page3');
-    const page4 = document.getElementById('page4');
-    const balloonsContainer = document.getElementById('balloons');
-    const birthdayTitle = document.getElementById('birthday-title');
-    const birthdaySong = document.getElementById('birthday-song');
-    const specialBtn = document.getElementById('special-btn');
+    let currentPage = 1;
 
-    helloBtn.addEventListener('click', () => {
-      page1.style.display = 'none';
-      page2.style.display = 'flex';
-
-      for (let i = 0; i < 10; i++) {
-        let balloon = document.createElement('div');
-        balloon.classList.add('balloon');
-        balloon.style.left = `${Math.random() * 100}vw`;
-        balloonsContainer.appendChild(balloon);
+    // Function to show the next page
+    function nextPage(page) {
+      document.getElementById(`page${currentPage}`).style.display = 'none';
+      currentPage = page;
+      document.getElementById(`page${currentPage}`).style.display = 'flex';
+      if (currentPage === 3) {
+        document.getElementById('specialBtn').style.display = 'inline-block'; // Show special button on page 3
       }
+    }
 
-      setTimeout(() => {
-        surpriseBtn.style.display = 'block';
-      }, 3000);
-    });
+    // Show the custom message after clicking the final button
+    function showFinalMessage() {
+      document.querySelector('.final-message').style.display = 'block';
+    }
 
-    surpriseBtn.addEventListener('click', () => {
-      page2.style.display = 'none';
-      page3.style.display = 'flex';
-      birthdayTitle.style.display = 'block'; 
-    });
-
-    specialBtn.addEventListener('click', () => {
-      page3.style.display = 'none';
-      page4.style.display = 'flex'; 
-    });
+    // Show the secret message
+    function showMessage() {
+      alert("This is the surprise message!");
+    }
   </script>
 </body>
 </html>
