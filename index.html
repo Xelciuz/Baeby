@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Baeby!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: #fce4ec; /* Baby pink color */
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #page1, #page2, #page3 {
+      display: none;
+      text-align: center;
+    }
+
+    #page1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      background: #ff6b6b;
+      color: #fff;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button img {
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .balloon {
+      position: absolute;
+      width: 50px;
+      height: 70px;
+      background: #ff9a9e;
+      border-radius: 50%;
+      animation: fly 6s infinite;
+    }
+
+    .balloon:before {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: #fff;
+      transform: translateX(-50%);
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+
+    #surprise-btn {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .wish {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .heart {
+      font-size: 5rem;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Page 1 -->
+  <div id="page1">
+    <button id="hello-btn">Hello Baeby</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div id="page2">
+    <div id="balloons"></div>
+    <button id="surprise-btn">Tap here for surprise <img src="https://img.icons8.com/emoji/48/000000/birthday-cake.png" alt="Cake"></button>
+  </div>
+
+  <!-- Page 3 -->
+  <div id="page3">
+    <p class="wish">Happy Birthday, Baeby! 🎉</p>
+    <p>You’re the most special person in my life, and I’m so lucky to have you. ❤️</p>
+    <div class="heart">❤️</div>
+    <audio id="birthday-song" autoplay loop>
+      <source src="https://www.bensound.com/bensound-music/bensound-happybirthday.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script>
+    // Page transitions
+    const helloBtn = document.getElementById('hello-btn');
+    const surpriseBtn = document.getElementById('surprise-btn');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const page3 = document.getElementById('page3');
+    const balloonsContainer = document.getElementById('balloons');
+    const birthdaySong = document.getElementById('birthday-song');
+
+    helloBtn.addEventListener('click', () => {
+      page1.style.display = 'none';
+      page2.style.display = 'flex';
+
+      // Generate balloons
+      for (let i = 0; i < 20; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.style.left = Math.random() * 100 + 'vw';
+        balloon.style.animationDelay = Math.random() * 2 + 's';
+        balloon.style.background = `hsl(${Math.random() * 360}, 80%, 70%)`;
+        balloonsContainer.appendChild(balloon);
+      }
+
+      setTimeout(() => {
+        surpriseBtn.style.display = 'block';
+      }, 3000);
+    });
+
+    surpriseBtn.addEventListener('click', () => {
+      page2.style.display = 'none';
+      page3.style.display = 'flex';
+      birthdaySong.play(); // Start the birthday song
+    });
+  </script>
+</body>
+</html>
