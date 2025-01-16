@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday, Baeby!</title>
-  <!-- Add funky font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Permanent Marker', cursive;
-      background: #fce4ec; /* Baby pink color */
+      background: #fce4ec;
       color: #fff;
       display: flex;
       justify-content: center;
@@ -64,7 +63,7 @@
     }
 
     /* Page layout */
-    #page1, #page2, #page3 {
+    #page1, #page2, #page3, #page4 {
       display: none;
       text-align: center;
       width: 100%;
@@ -82,10 +81,10 @@
     button {
       background: #ff6b6b;
       color: yellow;
-      padding: 30px 60px; /* Increased padding for bigger buttons */
+      padding: 30px 60px;
       border: none;
       border-radius: 15px;
-      font-size: 3rem; /* Increased font size */
+      font-size: 3rem;
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.2s, background 0.3s;
@@ -133,15 +132,22 @@
     }
 
     .title {
-      font-size: 3rem; /* Increased title size */
-      color: skyblue; /* Changed to sky blue */
+      font-size: 10rem; /* Increased font size */
+      color: skyblue; /* Sky blue color */
       font-weight: bold;
       text-transform: uppercase;
       margin-bottom: 10px;
+      animation: flash 1s infinite; /* Flash animation */
+    }
+
+    @keyframes flash {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
     }
 
     .heart {
-      font-size: 5rem; /* Larger heart size */
+      font-size: 5rem;
       animation: blink 1s infinite;
       margin-bottom: 30px;
     }
@@ -152,15 +158,14 @@
       100% { opacity: 1; }
     }
 
-    /* New button */
     .special-btn {
       margin-top: 20px;
-      background-color: #ffd700; /* Golden color */
+      background-color: #ffd700;
       color: #000;
-      padding: 30px 60px; /* Increased padding */
+      padding: 30px 60px;
       border: none;
       border-radius: 15px;
-      font-size: 2.5rem; /* Increased font size */
+      font-size: 2.5rem;
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.2s, background 0.3s;
@@ -171,9 +176,16 @@
       background: #ffcc00;
     }
 
+    .love-message {
+      font-size: 2.5rem;
+      font-style: italic;
+      color: #ff69b4;
+      margin-top: 20px;
+    }
+
     @media (max-width: 768px) {
       .title {
-        font-size: 2rem;
+        font-size: 6rem; /* Reduced size for small screens */
       }
 
       button, .special-btn {
@@ -188,9 +200,7 @@
   </style>
 </head>
 <body>
-  <!-- Confetti Border -->
   <div class="confetti-border">
-    <!-- Confetti elements along all edges -->
     <div class="confetti" style="top: 10px; left: 10px;"></div>
     <div class="confetti" style="top: 15px; left: 25px;"></div>
     <div class="confetti" style="top: 20px; left: 30px;"></div>
@@ -213,38 +223,40 @@
     <div class="confetti" style="bottom: 35px; right: 50px;"></div>
   </div>
 
-  <!-- Page 1 -->
   <div id="page1">
     <div class="heart">❤️</div>
     <button id="hello-btn">Hello Baeby</button>
   </div>
 
-  <!-- Page 2 -->
   <div id="page2">
     <div class="heart">❤️</div>
     <div id="balloons"></div>
     <button id="surprise-btn">Tap Here</button>
   </div>
 
-  <!-- Page 3 (Final Page) -->
   <div id="page3">
-    <p class="title">Happy Birthday</p>
+    <p class="title" id="birthday-title" style="display: none;">Happy Birthday</p>
     <button class="special-btn" id="special-btn">There's Something You Should Know</button>
     <div class="heart">❤️</div>
     <audio id="birthday-song" autoplay loop>
-      <source src="https://www.bensound.com/bensound-music/bensound-happybirthday.mp3" type="audio/mpeg">
+      <source src="custom-happy-birthday.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
   </div>
 
+  <div id="page4">
+    <div class="love-message">~ I love you so much</div>
+  </div>
+
   <script>
-    // Page transitions
     const helloBtn = document.getElementById('hello-btn');
     const surpriseBtn = document.getElementById('surprise-btn');
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
     const page3 = document.getElementById('page3');
+    const page4 = document.getElementById('page4');
     const balloonsContainer = document.getElementById('balloons');
+    const birthdayTitle = document.getElementById('birthday-title');
     const birthdaySong = document.getElementById('birthday-song');
     const specialBtn = document.getElementById('special-btn');
 
@@ -252,15 +264,13 @@
       page1.style.display = 'none';
       page2.style.display = 'flex';
 
-      // Generate balloons
       for (let i = 0; i < 10; i++) {
         let balloon = document.createElement('div');
         balloon.classList.add('balloon');
         balloon.style.left = `${Math.random() * 100}vw`;
         balloonsContainer.appendChild(balloon);
       }
-      
-      // Show the second button after a delay
+
       setTimeout(() => {
         surpriseBtn.style.display = 'block';
       }, 3000);
@@ -269,10 +279,12 @@
     surpriseBtn.addEventListener('click', () => {
       page2.style.display = 'none';
       page3.style.display = 'flex';
+      birthdayTitle.style.display = 'block'; 
     });
 
     specialBtn.addEventListener('click', () => {
-      alert('There is a surprise just for you!');
+      page3.style.display = 'none';
+      page4.style.display = 'flex'; 
     });
   </script>
 </body>
